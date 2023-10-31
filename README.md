@@ -1,3 +1,5 @@
+https://www.tutorialspoint.com/java_rmi/java_rmi_application.htm
+
 # Printer_RMI
 
 a simple client/server application using RMI. The example used in this lab is a mock-up of a simple authenticated print server, such as a print server installed in a small company.
