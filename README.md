@@ -32,8 +32,8 @@ Javac *.java
 start rmiregistry
 ```
 ![image](https://github.com/DTU-Master-Courses/Printer_RMI/assets/7116535/ddee7e73-36c1-4de8-a24f-840547fd3b1c)
-![image](https://github.com/DTU-Master-Courses/Printer_RMI/assets/7116535/11f12e42-cfd1-479b-b65a-f79783fad555)
 
+![image](https://github.com/DTU-Master-Courses/Printer_RMI/assets/7116535/11f12e42-cfd1-479b-b65a-f79783fad555)
 
 3. 
 ```
@@ -51,6 +51,3 @@ Java Client
 
 5.
 ![image](https://github.com/DTU-Master-Courses/Printer_RMI/assets/7116535/9f56bf18-3d43-485d-8b40-a877999a85e9)
-
-
-
