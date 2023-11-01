@@ -50,8 +50,10 @@ Java Client
 
 ![1698839481002](image/README/1698839481002.png)
 
-5. process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print() and queue() operations:
+3. 
 
-   ![1698839561908](image/README/1698839561908.png)
+process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print() and queue() operations:
 
-   ![1698839729817](image/README/1698839729817.png)
+![1698839561908](image/README/1698839561908.png)
+
+![1698839729817](image/README/1698839729817.png)
