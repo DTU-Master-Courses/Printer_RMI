@@ -62,4 +62,6 @@ in case of multiple printers:
 
 ![1698874232952](image/README/1698874232952.png)
 
-4. Authentication is done by using hash, secret key and encryption, user name is being encrypted(**AES**), password being hashed by **SHA-256,** and a AES secretKey to encrypt/decrypt user name.
+4. Authentication is done by using hash, secret key and encryption, user name is being encrypted(**AES**), password being hashed by **SHA-256,** and a AES secretKey to encrypt/decrypt user name. This is an example of **public file** storing credentials.
+   ![1698876535208](image/README/1698876535208.png)
+5.
