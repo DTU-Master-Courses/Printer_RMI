@@ -50,7 +50,7 @@ Java Client
 
 ![1698839481002](image/README/1698839481002.png)
 
-process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print() and queue() operations:
+3. process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print() and queue() operations:
 
 ![1698839561908](image/README/1698839561908.png)
 
@@ -61,3 +61,7 @@ in case of multiple printers:
 ![1698874362328](image/README/1698874362328.png)
 
 ![1698874232952](image/README/1698874232952.png)
+
+4. Authentication is done by using hash, secret key and encryption, user name is being encrypted(**AES**), password being hashed by **SHA-256,** and a AES secretKey to encrypt/decrypt user name. This is an example of **public file** storing credentials.
+   ![1698876535208](image/README/1698876535208.png)
+5.
