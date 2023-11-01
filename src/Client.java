@@ -148,9 +148,7 @@ public class Client {
         while (choice < 1 || choice > 4) {
             System.out.print("Enter your choice: ");
             if (scanner.hasNextInt()) {
-                System.out.print("has next int before: ");
                 choice = scanner.nextInt();
-                System.out.print("has next int after: ");
                 if (choice < 1 || choice > 4) {
                     System.out.println("Invalid choice. Please select a valid option (1-4).");
                 }
