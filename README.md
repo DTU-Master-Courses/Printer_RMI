@@ -50,10 +50,14 @@ Java Client
 
 ![1698839481002](image/README/1698839481002.png)
 
-3. 
-
 process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print() and queue() operations:
 
 ![1698839561908](image/README/1698839561908.png)
 
 ![1698839729817](image/README/1698839729817.png)
+
+in case of multiple printers:
+
+![1698874362328](image/README/1698874362328.png)
+
+![1698874232952](image/README/1698874232952.png)

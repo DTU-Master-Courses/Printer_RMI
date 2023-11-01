@@ -21,14 +21,19 @@ public class ImplExample implements Operations {
     public void queue(String printer) throws RemoteException {
         //lists the print queue for a given printer on the user's display in lines of the form <job number>   <file name>
         System.out.println("queue(): Print queue for printer " + printer + ":");
+        int counter = 0;
         for (int i = 0; i < printQueue.size(); i++) {
             String[] parts = printQueue.get(i).split(":");
-            if (parts.length >= 2) {
-                System.out.println("Job number: " + (i + 1) + " File name: "+ parts[0]);
-            } else {
-                // Handle invalid format
-                System.out.println("Invalid print queue entry: " + printQueue.get(i));
+            counter ++;
+            if (parts.length >= 2 && parts[1].equals(printer) && counter <= printQueue.size() ) {
+                System.out.println("Job number: " + (i + 1) + ", File name: "+ parts[0]);
+            } 
+             else if(!parts[1].equals(printer) && counter >= printQueue.size()) {
+                System.out.println(printer + " does not exist in the queue.");
+            //     // Handle invalid format
+            //     System.out.println("Invalid print queue entry: " + printQueue.get(i));
             }
+            // 
         }
     }
 
