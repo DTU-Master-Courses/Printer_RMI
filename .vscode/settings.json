@@ -1,0 +1,10 @@
+{
+    "java.project.referencedLibraries": [
+        "../lib/**/*.jar",
+        "lib/mssql-jdbc-12.4.2.jre11.jar",
+        "lib/mssql-jdbc-12.4.2.jre11-javadoc.jar",
+        "lib/mssql-jdbc-12.4.2.jre11-sources.jar"
+    ] 
+
+
+}
