@@ -1,34 +1,44 @@
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.SQLException;
 import java.util.Scanner;
-import java.io.File;
 import javax.crypto.SecretKey;
 
-public class Client {
+
+public class ClientDatabase {
     private static String username;
     private static String password;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        // Prompt the user to select an action
+        Scanner scanner = new Scanner(System.in);
+        int choice = displayActionMenu(scanner);
+
+        // Prompt the user for credentials
+        promptForCredentials(scanner);
+
+        // Create a DatabaseManager instance using your database connection details
+        
+
+        String jdbcUrl = "jdbc:sqlserver://ranwang.database.windows.net:1433;database=ranwang;user=ran-adm@ranwang;password=R@n12345678;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+        // String dbUsername = "ran-adm@ranwang";
+        // String dbPassword = "R@n12345678";
+        // DatabaseManager databaseManager = new DatabaseManager(jdbcUrl, dbUsername, dbPassword);
+        DatabaseManager databaseManager = new DatabaseManager(jdbcUrl);
+
+        // Use the databaseManager for database operations, including authentication
+        DatabaseAuthenticationProvider authenticationProvider = new DatabaseAuthenticationProvider(databaseManager);
+
         try {
             Registry registry = LocateRegistry.getRegistry(null);
             Operations operation = (Operations) registry.lookup("print");
-            //Operations queue = (Operations) registry.lookup("queue");
-            //Operations toQueue = (Operations) registry.lookup("toQueue");
-            
-            // Prompt the user to select an action
-            Scanner scanner = new Scanner(System.in);
-            int choice = displayActionMenu(scanner);
 
-            // Prompt the user for credentials
-            promptForCredentials(scanner);
-
-            // Generate a secret key based on the password
             SecretKey secretKey = CryptoUtil.generateAESKey(password);
             String encryptedUsername = CryptoUtil.encrypt(username, secretKey);
             String hashedPassword = CryptoUtil.hashPassword(password);
             System.out.println("Hashed Password: " + hashedPassword);
 
-            if (authenticateUser(encryptedUsername, hashedPassword, secretKey)) {
+            if (authenticateUser(authenticationProvider, encryptedUsername, hashedPassword)) {
                 // User is authenticated, present a list of actions
                 switch (choice) {
                     case 1:
@@ -42,7 +52,7 @@ public class Client {
                     case 2:
                         // List the print queue
                         System.out.print("Enter the printer name: ");
-                        String queuePrinter = scanner.next();;
+                        String queuePrinter = scanner.next();
                         operation.queue(queuePrinter);
                         break;
                     case 3:
@@ -68,37 +78,17 @@ public class Client {
     }
 
     private static void promptForCredentials(Scanner scanner) {
-        //Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your username: ");
         username = scanner.next();
         System.out.print("Enter your password: ");
         password = scanner.next();
-        // Check if password is null and initialize it if necessary
         if (password == null) {
             password = "";
         }
-        //scanner.close();
     }
 
-    private static boolean authenticateUser(String encryptedUsername, String hashedPassword ,SecretKey secretKey) {
-        try {
-            // Read the password file and check for a matching username and password
-            Scanner fileScanner = new Scanner(new File("passwords.txt"));
-            String username = CryptoUtil.decrypt(encryptedUsername, secretKey);
-            //String password = CryptoUtil.decrypt(encryptedPassword, secretKey);
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();
-                String[] parts = line.split(":");
-                if (parts.length == 2 && parts[0].equals(username) && parts[1].equals(hashedPassword)) {
-                    return true; // Authentication successful
-                }
-            }
-            fileScanner.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false; // Authentication failed
+    private static boolean authenticateUser(DatabaseAuthenticationProvider authenticationProvider, String encryptedUsername, String hashedPassword) {
+        return authenticationProvider.authenticate(encryptedUsername, hashedPassword);
     }
 
     private static int displayActionMenu(Scanner scanner) {
@@ -125,5 +115,4 @@ public class Client {
 
         return choice;
     }
-
 }
