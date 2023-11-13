@@ -26,6 +26,7 @@ The print server must support the following operations:
 
 ```
 Javac *.java
+javac -cp ".;lib/*" src/*.java
 ```
 
 2. Start the rmi registry using the following command.
@@ -40,6 +41,8 @@ start rmiregistry
 
 ```
 Java Server
+java -cp ".;lib/*;src" Server
+
 ```
 
 ![1698839453178](image/README/1698839453178.png)

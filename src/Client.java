@@ -107,13 +107,13 @@ public class Client {
                         String filename = scanner.next();
                         System.out.print("Enter the printer name: ");
                         String printer = scanner.next();
-                        operation.print(filename, printer);
+                        operation.print(filename, printer,username);
                         break;
                     case 2:
                         // List the print queue
                         System.out.print("Enter the printer name: ");
                         String queuePrinter = scanner.next();;
-                        operation.queue(queuePrinter);
+                        operation.queue(queuePrinter,username);
                         break;
                     case 3:
                         // Move a job to the top of the queue
@@ -121,7 +121,7 @@ public class Client {
                         String topQueuePrinter = scanner.next();
                         System.out.print("Enter the job number: ");
                         int jobNumber = scanner.nextInt();
-                        operation.topQueue(topQueuePrinter, jobNumber);
+                        operation.topQueue(topQueuePrinter, jobNumber,username);
                         break;
                     default:
                         System.out.println("Invalid choice.");

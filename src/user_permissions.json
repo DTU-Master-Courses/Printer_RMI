@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "username": "user1",
+      "role": "admin",
+      "permissions": ["print", "queue", "topQueue"]
+    },
+    {
+      "username": "user2",
+      "role": "reader",
+      "permissions": ["queue"]
+    }
+    // ... other users
+  ]
+}
