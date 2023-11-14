@@ -9,7 +9,7 @@ public class ImplExample implements Operations {
    /* public void printMsg() {
         System.out.println("This is an example RMI program");
     }*/
-    private static List<String> printQueue = new ArrayList<>();
+    private static List<PrintJob> printQueue = new ArrayList<>();
     private static UserPermission userPermission;
     static {
         // Load user permissions from a JSON file
@@ -17,55 +17,55 @@ public class ImplExample implements Operations {
     }
     
 
-    @Override
+     @Override
     public void print(String file, String printer, String username) throws RemoteException {
         checkPermission(username, "print");
-        String printJob = String.format("print(): The file name is %s on printer %s", file, printer);
-        String job = String.format("%s:%s", file, printer);
-        printQueue.add(job);
-        System.out.println(printJob);
+        int jobNumber = printQueue.size() + 1;
+        PrintJob printJob = new PrintJob(jobNumber, file, printer);
+        printQueue.add(printJob);
+        System.out.println("print(): Job number " + jobNumber +", File name "+file+" printer "+printer+ " added to the queue");
     }
+    
 
     @Override
     public void queue(String printer, String username) throws RemoteException {
         checkPermission(username, "queue");
-        //lists the print queue for a given printer on the user's display in lines of the form <job number>   <file name>
         System.out.println("queue(): Print queue for printer " + printer + ":");
-        int counter = 0;
-        for (int i = 0; i < printQueue.size(); i++) {
-            String[] parts = printQueue.get(i).split(":");
-            counter ++;
-            if (parts.length >= 2 && parts[1].equals(printer) && counter <= printQueue.size() ) {
-                System.out.println("Job number: " + (i + 1) + ", File name: "+ parts[0]);
-            } 
-             else if(!parts[1].equals(printer) && counter >= printQueue.size()) {
-                System.out.println(printer + " does not exist in the queue.");
-            //     // Handle invalid format
-            //     System.out.println("Invalid print queue entry: " + printQueue.get(i));
+        for (PrintJob job : printQueue) {
+            if (job.getPrinter().equals(printer)) {
+                System.out.println("Job number: " + job.getJobNumber() + ", File name: " + job.getFile());
             }
-            // 
         }
     }
 
     @Override
     public void topQueue(String printer, int job, String username) throws RemoteException {
         checkPermission(username, "topQueue");
-        // Implement the topQueue method here
-        System.out.println("topQueue():  Moving job " + job + " to the top of the queue for printer: " + printer);
-        // Add your implementation here
+        if (job <= 0 || job > printQueue.size()) {
+            System.out.println("topQueue(): Invalid job number");
+            return;
+        }
+
+        PrintJob selectedJob = printQueue.get(job - 1);
+        printQueue.remove(selectedJob);
+        printQueue.add(0, selectedJob);
+
+        System.out.println("topQueue(): Moved job " + job + " to the top of the queue for printer: " + printer);
+        System.out.println("The new list of queue: "+ printQueue.toString() );
     }
 
      @Override
     public void start(String username) throws RemoteException {
         checkPermission(username, "start");
-        System.out.println("start(): Starting print jobs for user " + username);
+        System.out.println("start(): Starting printer for " + username);
         // Add your implementation to start print jobs
     }
 
     @Override
     public void stop(String username) throws RemoteException {
         checkPermission(username, "stop");
-        System.out.println("stop(): Stopping print jobs for user " + username);
+        printQueue.clear();
+        System.out.println("stop(): Stopping printer for " + username);
         // Add your implementation to stop print jobs
     }
 

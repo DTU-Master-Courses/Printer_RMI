@@ -82,8 +82,6 @@ public class Client {
         try {
             Registry registry = LocateRegistry.getRegistry(null);
             Operations operation = (Operations) registry.lookup("print");
-            //Operations queue = (Operations) registry.lookup("queue");
-            //Operations toQueue = (Operations) registry.lookup("toQueue");
             // Prompt the user to select an action
             Scanner scanner = new Scanner(System.in);
             int choice = displayActionMenu(scanner);
@@ -123,6 +121,12 @@ public class Client {
                         int jobNumber = scanner.nextInt();
                         operation.topQueue(topQueuePrinter, jobNumber,username);
                         break;
+                    case 4:
+                         operation.start(username);
+                        break;
+                    case 5:
+                         operation.stop(username);
+                        break;
                     default:
                         System.out.println("Invalid choice.");
                         break;
@@ -141,20 +145,21 @@ public class Client {
         System.out.println("1. Print a file");
         System.out.println("2. List the print queue");
         System.out.println("3. Move a job to the top of the queue");
-        System.out.println("4. Exit");
+        System.out.println("4. Start printer");
+        System.out.println("5. Stop printer");
 
         int choice = -1; // Initialize to an invalid choice
 
-        while (choice < 1 || choice > 4) {
+        while (choice < 1 || choice > 6) {
             System.out.print("Enter your choice: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 4) {
-                    System.out.println("Invalid choice. Please select a valid option (1-4).");
+                if (choice < 1 || choice > 6) {
+                    System.out.println("Invalid choice. Please select a valid option (1-5).");
                 }
             } else {
                 scanner.next(); // Consume the non-integer token
-                System.out.println("Invalid input. Please enter a valid option (1-4).");
+                System.out.println("Invalid input. Please enter a valid option (1-5).");
             }
         }
 

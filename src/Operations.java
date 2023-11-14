@@ -7,4 +7,7 @@ public interface Operations extends Remote {
     void queue(String printer, String username) throws RemoteException;
 
     void topQueue(String printer, int job, String username) throws RemoteException;
+    void start(String username) throws RemoteException;
+    void stop(String username) throws RemoteException;
+
 }

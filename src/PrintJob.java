@@ -25,4 +25,8 @@ public class PrintJob implements Serializable {
     public String getPrinter() {
         return printer;
     }
+    @Override
+    public String toString() {
+        return "Job number: " + jobNumber + ", File name: " + file + ", Printer: " + printer;
+    }
 }

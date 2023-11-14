@@ -9,6 +9,11 @@
       "username": "user2",
       "role": "reader",
       "permissions": ["queue"]
-    }
+    },
+    {
+      "username": "user3",
+      "role": "operator",
+      "permissions": ["print", "queue", "topQueue"]
+    },
   ]
 }
