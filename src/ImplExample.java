@@ -55,6 +55,20 @@ public class ImplExample implements Operations {
         // Add your implementation here
     }
 
+     @Override
+    public void start(String username) throws RemoteException {
+        checkPermission(username, "start");
+        System.out.println("start(): Starting print jobs for user " + username);
+        // Add your implementation to start print jobs
+    }
+
+    @Override
+    public void stop(String username) throws RemoteException {
+        checkPermission(username, "stop");
+        System.out.println("stop(): Stopping print jobs for user " + username);
+        // Add your implementation to stop print jobs
+    }
+
     private void checkPermission(String username, String operation) {
         // Check if the user has permission for the given operation
         if (userPermission != null) {

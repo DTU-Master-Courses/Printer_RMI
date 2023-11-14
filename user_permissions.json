@@ -3,7 +3,7 @@
     {
       "username": "user1",
       "role": "admin",
-      "permissions": ["print", "queue", "topQueue"]
+      "permissions": ["print", "queue", "topQueue","start","stop"]
     },
     {
       "username": "user2",
