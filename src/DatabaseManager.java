@@ -4,27 +4,24 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
     private Connection databaseConnection;
-  
 
+    // Static initialization block to load the JDBC driver
+    static {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("JDBC driver not found. Error: " + e.getMessage());
+        }
+    }
 
-    // public DatabaseManager(String jdbcUrl, String dbUsername, String dbPassword) throws SQLException {
-    //     // databaseConnection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
-    //     try (Connection connection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword)) {
-    //         System.out.println("Connected to Azure SQL Database.");
-            
-    //         // Perform database operations here.
-    //     } catch (SQLException e) {
-    //         System.err.println("Connection failed. Error: " + e.getMessage());
-    //     }
-    // }
-    public DatabaseManager(String jdbcUrl) throws SQLException {
-        // databaseConnection = DriverManager.getConnection(jdbcUrl, dbUsername, dbPassword);
-        try (Connection databaseConnection = DriverManager.getConnection(jdbcUrl)) {
+    public DatabaseManager(String jdbcUrl) {
+        try {
+            // Assign the value to the class field
+            this.databaseConnection = DriverManager.getConnection(jdbcUrl);
             System.out.println("Connected to Azure SQL Database.");
-            
             // Perform database operations here.
         } catch (SQLException e) {
-            System.err.println("databaseConnection failed. Error: " + e.getMessage());
+            System.err.println("Database connection failed. Error: " + e.getMessage());
         }
     }
 
