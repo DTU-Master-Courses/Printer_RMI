@@ -10,6 +10,5 @@
       "role": "reader",
       "permissions": ["queue"]
     }
-    // ... other users
   ]
 }
