@@ -17,7 +17,7 @@ public class Server extends ImplExample {
             Registry registry = LocateRegistry.getRegistry();
 
             // The stub's primary purpose is to enable method calls on the client side to be forwarded to the remote object on the server side.
-            registry.bind("print", obj);
+            registry.rebind("print", stub);
             System.err.println("Server ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e);
