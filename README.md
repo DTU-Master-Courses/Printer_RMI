@@ -22,6 +22,8 @@ The print server must support the following operations:
 
 # how to use the program
 
+This program is developed in **VS Code**.
+
 1. Open the folder where you have stored all the programs, in the root repo, compile all the Java files as shown below.
 
 ```
