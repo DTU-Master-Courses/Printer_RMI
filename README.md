@@ -83,35 +83,45 @@ user3:WQasNhoTfi0oZGXNZYjrtaw/WulVABEAvEFXfD11F2Q=
 
 7. Demonstrate users' permissions depending on the role they are assigned to:
    a. user1 has admin role, he starts printer and add a couple of printing jobs:
+
    ![Alt text](image-1.png)
    ![Alt text](image-5.png)
    ![Alt text](image-6.png)
 
    b. user1 moves the second job to the top of the queue.
+
    ![Alt text](image-7.png)
    ![Alt text](image-8.png)
 
    c. user1 can also list the queue:
+
    ![Alt text](image-9.png)
    ![Alt text](image-10.png)
 
    d. user2 has only reader role, he does not has permissions to start, stop and create printing jobs. attempts doing so will result in failour. 
+
    ![Alt text](image-11.png)
    ![Alt text](image-12.png)
    ![Alt text](image-13.png)
+
    he can only print the queue:
+
    ![Alt text](image-14.png)
    ![Alt text](image-15.png)
 
    e. user3 has operator role, he has all permissions defined so far, but start and stop.
    I will try to let user3 to move job NO.1 back to the top again:
+
    ![Alt text](image-16.png)
    ![Alt text](image-17.png)
+
    user3 list the reordered queue:
+
    ![Alt text](image-18.png)
    ![Alt text](image-19.png)
 
    f. user1 stops the printer, all the printing jobs are cleared up.
+   
    ![Alt text](image-20.png)
    ![Alt text](image-21.png)
 
