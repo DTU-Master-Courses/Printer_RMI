@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 import javax.crypto.SecretKey;
 
+
 public class Client {
     private static String username;
     private static String password;
@@ -23,12 +24,22 @@ public class Client {
             promptForCredentials(scanner);
 
             // Generate a secret key based on the password
-            SecretKey secretKey = CryptoUtil.generateAESKey(password);
-            String encryptedUsername = CryptoUtil.encrypt(username, secretKey);
-            String hashedPassword = CryptoUtil.hashPassword(password);
+            // SecretKey secretKey = CryptoUtil.generateAESKey(password);
+            // String encryptedUsername = CryptoUtil.encrypt(username, secretKey);
+            // String hashedPassword = CryptoUtil.hashPassword(password);
+            // System.out.println("secretKey: " + secretKey);
             // System.out.println("Hashed Password: " + hashedPassword);
+            // SecretKey secretKey = CryptoUtil.generateKey();
 
-            if (authenticateUser(encryptedUsername, hashedPassword, secretKey)) {
+            String encryptedPassword = CryptoUtil.encrypt(password);
+            String encryptedUsername = CryptoUtil.encrypt(username);
+            String decryptedPassword = CryptoUtil.decrypt(encryptedPassword);
+            String decryptedUsername = CryptoUtil.decrypt(encryptedUsername);
+    
+            System.out.println("Encrypted Password: " + encryptedPassword);
+            System.out.println("Decrypted Password: " + decryptedPassword);
+
+            if (authenticateUser(encryptedUsername, encryptedPassword)) {
                 // User is authenticated, present a list of actions
                 switch (choice) {
                     case 1:
@@ -119,16 +130,16 @@ public class Client {
         //scanner.close();
     }
 
-    private static boolean authenticateUser(String encryptedUsername, String hashedPassword ,SecretKey secretKey) {
+    private static boolean authenticateUser(String encryptedUsername, String encryptedPassword) {
         try {
             // Read the password file and check for a matching username and password
             Scanner fileScanner = new Scanner(new File("passwords.txt"));
-            String username = CryptoUtil.decrypt(encryptedUsername, secretKey);
+            String username = CryptoUtil.decrypt(encryptedUsername);
             //String password = CryptoUtil.decrypt(encryptedPassword, secretKey);
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(":");
-                if (parts.length == 2 && parts[0].equals(username) && parts[1].equals(hashedPassword)) {
+                if (parts.length == 2 && parts[0].equals(username) && parts[1].equals(encryptedPassword)) {
                     return true; // Authentication successful
                 }
             }

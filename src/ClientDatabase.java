@@ -33,12 +33,22 @@ public class ClientDatabase {
             Registry registry = LocateRegistry.getRegistry(null);
             Operations operation = (Operations) registry.lookup("print");
 
-            SecretKey secretKey = CryptoUtil.generateAESKey(password);
-            String encryptedUsername = CryptoUtil.encrypt(username, secretKey);
-            String hashedPassword = CryptoUtil.hashPassword(password);
-            System.out.println("Hashed Password: " + hashedPassword);
+            // SecretKey secretKey = CryptoUtil.generateAESKey(password);
+            // String encryptedUsername = CryptoUtil.encrypt(username, secretKey);
+            // String hashedPassword = CryptoUtil.hashPassword(password);
+            // System.out.println("Hashed Password: " + hashedPassword);
 
-            if (authenticateUser(authenticationProvider, encryptedUsername, hashedPassword)) {
+            // SecretKey secretKey = CryptoUtil.generateKey();
+
+            String encryptedPassword = CryptoUtil.encrypt(password);
+            String encryptedUsername = CryptoUtil.encrypt(username);
+            String decryptedPassword = CryptoUtil.decrypt(encryptedPassword);
+            String decryptedUsername = CryptoUtil.decrypt(encryptedUsername);
+    
+            System.out.println("Encrypted Password: " + encryptedPassword);
+            System.out.println("Decrypted Password: " + decryptedPassword);
+
+            if (authenticateUser(authenticationProvider, encryptedUsername, encryptedPassword)) {
                 // User is authenticated, present a list of actions
                 switch (choice) {
                     case 1:
@@ -87,8 +97,8 @@ public class ClientDatabase {
         }
     }
 
-    private static boolean authenticateUser(DatabaseAuthenticationProvider authenticationProvider, String encryptedUsername, String hashedPassword) {
-        return authenticationProvider.authenticate(encryptedUsername, hashedPassword);
+    private static boolean authenticateUser(DatabaseAuthenticationProvider authenticationProvider, String encryptedUsername, String encryptedPassword) {
+        return authenticationProvider.authenticate(encryptedUsername, encryptedPassword);
     }
 
     private static int displayActionMenu(Scanner scanner) {
