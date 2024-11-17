@@ -26,7 +26,7 @@ public class Client {
             SecretKey secretKey = CryptoUtil.generateAESKey(password);
             String encryptedUsername = CryptoUtil.encrypt(username, secretKey);
             String hashedPassword = CryptoUtil.hashPassword(password);
-            System.out.println("Hashed Password: " + hashedPassword);
+            // System.out.println("Hashed Password: " + hashedPassword);
 
             if (authenticateUser(encryptedUsername, hashedPassword, secretKey)) {
                 // User is authenticated, present a list of actions
@@ -53,6 +53,45 @@ public class Client {
                         int jobNumber = scanner.nextInt();
                         operation.topQueue(topQueuePrinter, jobNumber);
                         break;
+                    case 4:
+                    // starts the print server
+                        System.out.println("The print server is starting, pleae wait...");
+                        operation.start();
+                        break;
+                    case 5:
+                        // stops the print server
+                        System.out.println("The print server is shutting down, please wait...");
+                        operation.stop();
+                        break;
+                    case 6:
+                     // stops the print server, clears the print queue and starts the print server again
+                        System.out.println("The print server is restarting, please wait...");
+                        operation.restart();
+                        break;
+                    case 7:
+                        // prints status of printer on the user’s display
+                        System.out.print("Enter the printer name: ");
+                        String printer_ = scanner.next();
+                        operation.status(printer_);
+                        break;
+                    case 8:
+                    // prints the value of the parameter on the print server to the user’s display
+                        System.out.print("Enter the parameter name: "); // only take the parameter name port
+                        String parameter = scanner.next();
+                        operation.readConfig(parameter);
+                        break;
+                    case 9:
+                         // sets the parameter on the print server to value
+                        System.out.print("Enter the parameter name: "); // only take the parameter name port
+                        String port = scanner.next();
+                        System.out.print("Enter the " +port+ " new value: "); // only take the parameter name port
+                        String value = scanner.next();
+                        operation.setConfig( port, value);
+                        break;
+
+                    
+
+
                     default:
                         System.out.println("Invalid choice.");
                         break;
@@ -106,20 +145,25 @@ public class Client {
         System.out.println("1. Print a file");
         System.out.println("2. List the print queue");
         System.out.println("3. Move a job to the top of the queue");
-        System.out.println("4. Exit");
+        System.out.println("4. Starts the print server");
+        System.out.println("5. Stops the print server");
+        System.out.println("6. Restarts the print server");
+        System.out.println("7. Prints status of printer on the user’s display");
+        System.out.println("8. Prints the value of the parameter on the print server");
+        System.out.println("9. Sets the parameter on the print server to value, only available parameter: port");
 
         int choice = -1; // Initialize to an invalid choice
 
-        while (choice < 1 || choice > 4) {
+        while (choice < 1 || choice > 9) {
             System.out.print("Enter your choice: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-                if (choice < 1 || choice > 4) {
-                    System.out.println("Invalid choice. Please select a valid option (1-4).");
+                if (choice < 1 || choice > 9) {
+                    System.out.println("Invalid choice. Please select a valid option (1-9).");
                 }
             } else {
                 scanner.next(); // Consume the non-integer token
-                System.out.println("Invalid input. Please enter a valid option (1-4).");
+                System.out.println("Invalid input. Please enter a valid option (1-9).");
             }
         }
 

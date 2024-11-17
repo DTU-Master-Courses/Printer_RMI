@@ -62,6 +62,24 @@ in case of multiple printers:
 
 ![1698874232952](image/README/1698874232952.png)
 
+![1731874767486](image/README/1731874767486.png)
+
+After restart, the queue is cleared.
+
+![1731875070355](image/README/1731875070355.png)
+
+status:
+
+![1731875971439](image/README/1731875971439.png)
+
+![1731876052436](image/README/1731876052436.png)
+
+readConfig and setConfig:
+
+![1731876085629](image/README/1731876085629.png)
+
 4. Authentication is done by using hash, secret key and encryption, user name is being encrypted(**AES**), password being hashed by **SHA-256,** and a AES secretKey to encrypt/decrypt user name. This is an example of **public file** storing credentials.
    ![1698876535208](image/README/1698876535208.png)
+
+   ![1731876354433](image/README/1731876354433.png)
 5.
