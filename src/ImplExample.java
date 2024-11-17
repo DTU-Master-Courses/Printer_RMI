@@ -1,14 +1,20 @@
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
 // Implementing the remote interface
-public class ImplExample implements Operations {
+public class ImplExample extends UnicastRemoteObject implements Operations {
 
     // Implementing the interface method
    /* public void printMsg() {
         System.out.println("This is an example RMI program");
     }*/
+    // Constructor
+    protected ImplExample() throws RemoteException {
+        super();
+    }
+    
     private static List<String> printQueue = new ArrayList<>();
 
     public void print(String file, String printer) throws RemoteException {

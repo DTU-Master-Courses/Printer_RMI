@@ -10,7 +10,7 @@ public class Client {
 
     public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.getRegistry(null);
+            Registry registry = LocateRegistry.getRegistry(5099);
             Operations operation = (Operations) registry.lookup("print");
             //Operations queue = (Operations) registry.lookup("queue");
             //Operations toQueue = (Operations) registry.lookup("toQueue");
