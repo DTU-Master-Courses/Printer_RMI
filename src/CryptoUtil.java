@@ -46,7 +46,6 @@ public class CryptoUtil {
     //         return null;
     //     }
     // }
-    // Derive a secret key from the given password
     protected static SecretKey getSecretKey() throws Exception {
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         PBEKeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT.getBytes(), 65536, 256);

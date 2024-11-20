@@ -1,10 +1,4 @@
-# Printer_RMI
-
-a simple client/server application using RMI. The example used in this lab is a mock-up of a simple authenticated print server, such as a print server installed in a small company.
-
-https://www.tutorialspoint.com/java_rmi/java_rmi_application.htm
-
-# Printer_RMI
+## Printer_RMI
 
 a simple client/server application using RMI. The example used in this lab is a mock-up of a simple authenticated print server, such as a print server installed in a small company.
 
@@ -19,8 +13,9 @@ The print server must support the following operations:
 - status(String printer);  // prints status of printer on the user's display
 - readConfig(String parameter);   // prints the value of the parameter on the print server to the user's display
 - setConfig(String parameter, String value);   // sets the parameter on the print server to value
+## Introduction
 
-# how to use the program
+### how to use the program
 
 1. Open the folder where you have stored all the programs, in this case /src, and compile all the Java files as shown below.
 
@@ -50,7 +45,7 @@ Java Client
 
 ![1698839481002](image/README/1698839481002.png)
 
-3. process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print() and queue() operations:
+3. process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print(), queue() and topQueue() operations:
 
 ![1698839561908](image/README/1698839561908.png)
 
@@ -78,8 +73,34 @@ readConfig and setConfig:
 
 ![1731876085629](image/README/1731876085629.png)
 
-4. Authentication is done by using hash, secret key and encryption, user name is being encrypted(**AES**), password being hashed by **SHA-256,** and a AES secretKey to encrypt/decrypt user name. This is an example of **public file** storing credentials.
-   ![1698876535208](image/README/1698876535208.png)
+## Authentication
 
-   ![1731876354433](image/README/1731876354433.png)
-5.
+### Password Storage 
+#### Analysis of the 3 solutions
+1. System File 
+   
+
+
+For convinence's sack in this lab, I use **public file** to store user credential. ``Confidentiality`` is reached as I encrypted(**AES**) username and password. I do not implement ``integrity`` due to practical matters. However, I should emphasis that normal user should not have write access to the file, in the implementation phase I just mimic that I have ``admin role``, and ``manualy`` upsert data to the file. If normal user want to update password, they should go through an ``extra authentication`` process by proving they are who they claim they are. When they are anthenticated, a process with admin role will update the password. 
+
+![1698876535208](image/README/1698876535208.png)
+
+![1731876354433](image/README/1731876354433.png)
+
+### Password transport
+Regarding Passwords Transport, we operate under the assumption that Transport Layer Security (TLS) is already implemented within our system. TLS plays a critical role in ensuring the secure transmission of passwords between the client and server, safeguarding sensitive information from potential interception by unauthorized entities.
+
+### Password verification
+
+
+### Session management
+
+##  Access Control Lists
+
+## Role Based Access Control
+
+## Changes in the policy
+
+## Evaluation
+
+## Conclusion
