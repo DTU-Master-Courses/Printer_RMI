@@ -53,13 +53,15 @@ Regarding Passwords Transport, we operate under the assumption that Transport La
  The session token is generated using ``UUID.randomUUID().toString()``, which provides a ``unique and random ``token for each session. The uniqueness prevents collisions and ensuring that each session is distinct.  The server maintains a map of ``active sessions``, associating ``each session`` token with the ``corresponding user`` and ``timestamp``. This map is used to validate the session token for each request, ensuring that only valid sessions are accepted. The session token is transmitted over a secure channel (``TLS``) to prevent ``interception`` by unauthorized entities. The session token is supposed to store securely on the client side, typically in an HTTP-only cookie or a secure file system. For the purpose of this lab, I saved it in a Java object.
 2. Session Lifetime
 Each session has a predefined ``timeout`` period of 5 minutes in this lab. If the session token is not used() within the timeout period, the session is considered expired, and the user must ``re-authenticate`` to obtain a new session token. Timestamp refresh ensures that active sessions remain valid while inactive sessions expire. When a session expires, the server removes the session token from the active sessions map, ensuring that expired tokens cannot be used to access the system.
-![1732144557133](image/Report/1732144557133.png)
-![1732144507301](image/Report/1732144507301.png)
+![1732144557133](image/README/Report/1732144557133.png)
+![1732144507301](image/README/Report/1732144507301.png)
 
 My implementation ensures that the sessions are managed securely, maintaining both the integrity and confidentiality of the session tokens and the associated user data. This approach provides a balance between security and usability, allowing users to remain authenticated for a period of time while minimizing the risk of unauthorized access.
 
 
 ##  Access Control Lists
+
+
 
 ## Role Based Access Control
 

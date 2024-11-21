@@ -26,8 +26,17 @@ public class Client {
             promptForCredentials(scanner);
 
             // Authenticate and get session token
-            sessionToken = operation.authenticate(username, password);
+            String encryptedPassword = CryptoUtil.encrypt(password);
+            sessionToken = operation.authenticate(username, encryptedPassword);
             System.out.println("Authenticated with session token: " + sessionToken);
+
+            // String encryptedPassword = CryptoUtil.encrypt(password);
+            // String encryptedUsername = CryptoUtil.encrypt(username);
+            // String decryptedPassword = CryptoUtil.decrypt(encryptedPassword);
+            // String decryptedUsername = CryptoUtil.decrypt(encryptedUsername);
+    
+            System.out.println("Encrypted Password: " + encryptedPassword);
+            // System.out.println("Decrypted Password: " + decryptedPassword);
 
             // Perform operations
             while (true) {

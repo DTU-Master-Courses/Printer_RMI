@@ -13,4 +13,5 @@ public interface Operations extends Remote {
     void setConfig(String sessionToken, String parameter, String value) throws RemoteException;
     String authenticate(String username, String password) throws RemoteException;
     // void performOperation(String sessionToken, String operation) throws RemoteException;
+    // String hashPassword(String password);
 }
