@@ -1,7 +1,8 @@
 Alice: Admin
-Bob: Technician
+George: Technician
 Cecilia: PowerUser
+Ida: PowerUser
 David: User
 Erica: User
 Fred: User
-George: User
+Henry: User
