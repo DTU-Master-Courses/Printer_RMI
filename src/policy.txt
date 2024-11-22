@@ -1,7 +1,4 @@
-Alice: all
-Bob: start, stop, restart, status, readConfig, setConfig
-Cecilia: print, queue, topQueue, restart
-David: print, displayQueue
-Erica: print, displayQueue
-Fred: print, displayQueue
-George: print, displayQueue
+Admin: all
+Technician: start, stop, restart, status, readConfig, setConfig
+PowerUser: print, queue, topQueue, restart
+User: print, queue

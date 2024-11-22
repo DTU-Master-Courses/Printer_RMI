@@ -24,11 +24,11 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     private static Map<String, Session> sessions = new HashMap<>();
     private static final long SESSION_TIMEOUT = 300000; // 5 minutes
     private static Map<String, Set<String>> acl = new HashMap<>();
+    private static Map<String, String> userRoles = new HashMap<>();
     // private Server server;
 
     protected ImplExample() throws RemoteException {
         super();
-        // server = new Server();
         printQueue = new ArrayList<>();
         // userPasswords.put("user1", "password1");
         // userPasswords.put("user2", "password2");
@@ -40,12 +40,24 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
         // userPasswords.put("Erica", "erica");
         // userPasswords.put("Fred", "fred");
         // userPasswords.put("George", "george");
+        // assignRole("Alice", "Admin");
+        // assignRole("Bob", "Technician");
+        // assignRole("Cecilia", "PowerUser");
+        // assignRole("David", "User");
+        // assignRole("Erica", "User");
+        // assignRole("Fred", "User");
+        // assignRole("George", "User");
         loadPolicy("policy.txt");
         loadUserPasswords("passwords.txt");
+        loadUserRoles("user_roles.txt");
         // Print out the hashed passwords
-        userPasswords.forEach((user, hashedPassword) -> {
-        System.out.println("User: " + user + ", Hashed Password: " + hashedPassword);
+        // userPasswords.forEach((user, hashedPassword) -> {
+        // System.out.println("User: " + user + ", Hashed Password: " + hashedPassword);
+        // });
+        userRoles.forEach((user, role) -> {
+        System.out.println("User: " + user + ", Role: " + role);
         });
+
     }
 
     private void loadUserPasswords(String fileName) {
@@ -99,31 +111,42 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(":");
-                String user = parts[0].trim();
+                String role = parts[0].trim();
                 String[] permissions = parts[1].trim().split(",");
-                acl.put(user, new HashSet<>(Arrays.asList(permissions)));
+                acl.put(role, new HashSet<>(Arrays.asList(permissions)));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    protected boolean hasPermission(String user, String operation) {
-        Set<String> permissions = acl.get(user);
+    private void loadUserRoles(String rolesFile) {
+        try (BufferedReader br = new BufferedReader(new FileReader(rolesFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (parts.length == 2) {
+                    String user = parts[0].trim();
+                    String role = parts[1].trim();
+                    assignRole(user, role);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean hasPermission(String user, String operation) {
+        String role = userRoles.get(user);
+        Set<String> permissions = acl.get(role);
+        boolean hasPermission =  permissions.contains(operation);
+        System.out.println("permissions are : " + permissions +"yes or no:" + hasPermission);
         return permissions != null && (permissions.contains("all") || permissions.contains(operation));
     }
-  
-    // public void performOperation(String sessionToken, String operation) throws RemoteException {
-    //     if (isSessionValid(sessionToken)) {
-    //         String username = sessions.get(sessionToken).getUsername();
-    //         System.out.println("Performing operation for user: " + username);
-    //         // Perform the operation
-    //         // Example operation: add to print queue
-            
-    //     } else {
-    //         throw new RemoteException("Session expired or invalid");
-    //     }
-    // }
+
+    public void assignRole(String user, String role) {
+        userRoles.put(user, role);
+    }
 
     public void print(String sessionToken, String file, String printer) throws RemoteException {
         if (isSessionValid(sessionToken)) {
@@ -144,9 +167,10 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     public void queue(String sessionToken, String printer) throws RemoteException {
     if (isSessionValid(sessionToken)) {
         String username = sessions.get(sessionToken).getUsername();
-        if (hasPermission(username, "restart")) {
+        String role = userRoles.get(username);
+        if (hasPermission(username, "queue")) {
             // Code to queue the server
-            System.out.println("Performing operation queue for user: " + username);
+            System.out.println("Performing operation queue for user: " + username + " with role: " + role);
             // Perform the operation
             // Implement the queue method here
             try {
@@ -174,7 +198,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
           
             System.out.println("restart(): The print queue is clean, the print server is restarted.");     
         } else {
-            System.out.println("Access denied for user: " + username);
+            System.out.println("Access denied for user: " + username + " with role: " + role);
         }
     } else {
         throw new RemoteException("Session expired or invalid");
@@ -185,9 +209,10 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     public void topQueue(String sessionToken, String printer, int job) throws RemoteException {
     if (isSessionValid(sessionToken)) {
         String username = sessions.get(sessionToken).getUsername();
+        String role = userRoles.get(username);
         if (hasPermission(username, "topQueue")) {
             // Code to topQueue the server
-            System.out.println("Performing operation topQueue for user: " + username);
+            System.out.println("Performing operation topQueue for user: " + username+ " with role: " + role);
             // Perform the operation
             // Implement the topQueue method here
             try {
@@ -214,7 +239,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
           
             System.out.println("restart(): The print queue is clean, the print server is restarted.");     
         } else {
-            System.out.println("Access denied for user: " + username);
+            System.out.println("Access denied for user: " + username+ " with role: " + role);
         }
         
     } else {
@@ -225,9 +250,10 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     public void start(String sessionToken) throws RemoteException {
     if (isSessionValid(sessionToken)) {
         String username = sessions.get(sessionToken).getUsername();
+        String role = userRoles.get(username);
         if (hasPermission(username, "start")) {
             // Code to start the server
-            System.out.println("Performing operation start for user: " + username);
+            System.out.println("Performing operation start for user: " + username + " with role: " + role);
             try {
                 Thread.sleep(3000);
                 System.out.println("start(): The print server is ready.");
@@ -236,42 +262,66 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
                 Thread.currentThread().interrupt();
             }
         } else {
-            System.out.println("Access denied for user: " + username);
+            System.out.println("Access denied for user: " + username + " with role: " + role);
         }
     } else {
         throw new RemoteException("Session expired or invalid");
     }
 }
 
-    public void stop(String sessionToken) throws RemoteException {
+public void stop(String sessionToken) throws RemoteException {
     if (isSessionValid(sessionToken)) {
         String username = sessions.get(sessionToken).getUsername();
+        String role = userRoles.get(username);
         if (hasPermission(username, "stop")) {
-            // Code to start the server
-            System.out.println("Performing operation stop for user: " + username);
-            // Perform the operation
-            // Implement the stop method here
+            // Code to stop the server
+            System.out.println("Performing operation start for user: " + username + " with role: " + role);
             try {
                 Thread.sleep(3000);
-                System.out.println("stop(): The print server is stopped.");
+                System.out.println("stop(): The print server is ready.");
             } catch (InterruptedException e) {
                 System.out.println("stop(): Interrupted while sleeping");
                 Thread.currentThread().interrupt();
             }
-            printQueue.clear();  
         } else {
-            System.out.println("Access denied for user: " + username);
-        }       
+            System.out.println("Access denied for user: " + username + " with role: " + role);
+        }
     } else {
         throw new RemoteException("Session expired or invalid");
     }
 }
+
+//     public void stop(String sessionToken) throws RemoteException {
+//     if (isSessionValid(sessionToken)) {
+//         String username = sessions.get(sessionToken).getUsername();
+//         String role = userRoles.get(username);
+//         if (hasPermission(username, "stop")) {
+//             // Code to start the server
+//             System.out.println("Performing operation stop for user: " + username + " with role: " + role);
+//             // Perform the operation
+//             // Implement the stop method here
+//             try {
+//                 Thread.sleep(3000);
+//                 System.out.println("stop(): The print server is stopped.");
+//             } catch (InterruptedException e) {
+//                 System.out.println("stop(): Interrupted while sleeping");
+//                 Thread.currentThread().interrupt();
+//             }
+//             printQueue.clear();  
+//         } else {
+//             System.out.println("Access denied for user: " + username + " with role: " + role);
+//         }       
+//     } else {
+//         throw new RemoteException("Session expired or invalid");
+//     }
+// }
     public void restart(String sessionToken) throws RemoteException {
     if (isSessionValid(sessionToken)) {
         String username = sessions.get(sessionToken).getUsername();
+        String role = userRoles.get(username);
         if (hasPermission(username, "restart")) {
             // Code to start the server
-            System.out.println("Performing operation restart for user: " + username);
+            System.out.println("Performing operation restart for user: " + username + " with role: " + role);
             // Perform the operation
             // Implement the restart method here
             try {
@@ -283,7 +333,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
             printQueue.clear();  
             System.out.println("restart(): The print queue is clean, the print server is restarted.");     
         } else {
-            System.out.println("Access denied for user: " + username);
+            System.out.println("Access denied for user: " + username + " with role: " + role);
         }
      
     } else {
@@ -294,9 +344,10 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     public void status(String sessionToken, String printer) throws RemoteException {    
         if (isSessionValid(sessionToken)) {
             String username = sessions.get(sessionToken).getUsername();
+            String role = userRoles.get(username);
             if (hasPermission(username, "status")) {
                 // Code to start the server
-                System.out.println("Performing operation status for user: " + username);
+                System.out.println("Performing operation status for user: " + username + " with role: " + role);
                 // Perform the operation
                 // Implement the status method here
                 try {
@@ -319,7 +370,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
                 }
                 
             } else {
-                System.out.println("Access denied for user: " + username);
+                System.out.println("Access denied for user: " + username + " with role: " + role);
             }
        
             
@@ -332,9 +383,10 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     public void readConfig(String sessionToken,String parameter) throws RemoteException {
         if (isSessionValid(sessionToken)) {
             String username = sessions.get(sessionToken).getUsername();
+            String role = userRoles.get(username);
             if (hasPermission(username, "readConfig")) {
                 // Code to readConfig the server
-                System.out.println("Performing operation readConfig for user: " + username);
+                System.out.println("Performing operation readConfig for user: " + username + " with role: " + role);
                 // Perform the operation
                 // Implement the readConfig method here
                 try {
@@ -358,7 +410,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
                 }             
                 System.out.println("restart(): The print queue is clean, the print server is restarted.");     
             } else {
-                System.out.println("Access denied for user: " + username);
+                System.out.println("Access denied for user: " + username + " with role: " + role);
             }   
         } else {
             throw new RemoteException("Session expired or invalid");
@@ -367,9 +419,10 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     public void setConfig(String sessionToken, String parameter, String value) throws RemoteException {
         if (isSessionValid(sessionToken)) {
             String username = sessions.get(sessionToken).getUsername();
+            String role = userRoles.get(username);
             if (hasPermission(username, "setConfig")) {
                 // Code to setConfig the server
-                System.out.println("Performing operation setConfig for user: " + username);
+                System.out.println("Performing operation setConfig for user: " + username + " with role: " + role);
                 // Perform the operation
                 // Implement the setConfig method here
                 try {
@@ -392,7 +445,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
               
                 System.out.println("restart(): The print queue is clean, the print server is restarted.");     
             } else {
-                System.out.println("Access denied for user: " + username);
+                System.out.println("Access denied for user: " + username + " with role: " + role);
             }
    
         } else {
