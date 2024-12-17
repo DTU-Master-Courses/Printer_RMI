@@ -1,0 +1,7 @@
+Alice: all
+Bob: start, stop, restart, status, readConfig, setConfig
+Cecilia: print, queue, topQueue, restart
+David: print, displayQueue
+Erica: print, displayQueue
+Fred: print, displayQueue
+George: print, displayQueue
