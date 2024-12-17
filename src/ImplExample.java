@@ -30,6 +30,7 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
     protected ImplExample() throws RemoteException {
         super();
         printQueue = new ArrayList<>();
+<<<<<<< Updated upstream
         // userPasswords.put("user1", "password1");
         // userPasswords.put("user2", "password2");
         // userPasswords.put("Ran", "0119");
@@ -47,6 +48,8 @@ public class ImplExample extends UnicastRemoteObject implements Operations {
         // assignRole("Erica", "User");
         // assignRole("Fred", "User");
         // assignRole("George", "User");
+=======
+>>>>>>> Stashed changes
         loadPolicy("policy.txt");
         loadUserPasswords("passwords.txt");
         loadUserRoles("user_roles.txt");

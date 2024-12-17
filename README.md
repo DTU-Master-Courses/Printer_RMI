@@ -13,6 +13,7 @@ The print server must support the following operations:
 - status(String printer);  // prints status of printer on the user's display
 - readConfig(String parameter);   // prints the value of the parameter on the print server to the user's display
 - setConfig(String parameter, String value);   // sets the parameter on the print server to value
+
 ## Introduction
 
 ### how to use the program
@@ -45,7 +46,21 @@ Java Client
 
 ![1698839481002](image/README/1698839481002.png)
 
-3. process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print(), queue() and topQueue() operations:
+3. user and password to use:
+
+   ```
+           userPasswords.put("user1", "password1");
+           userPasswords.put("user2", "password2");
+           userPasswords.put("Ran", "0119");
+           userPasswords.put("Alice", "alice");
+           userPasswords.put("Bob", "bob");
+           userPasswords.put("Cecilia", "cecilia");
+           userPasswords.put("David", "david");
+           userPasswords.put("Erica", "erica");
+           userPasswords.put("Fred", "fred");
+           userPasswords.put("George", "george");
+   ```
+4. process of choosing operations, authentication, and how what the server print out after an operation is done. It showcases print(), queue() and topQueue() operations:
 
 ![1698839561908](image/README/1698839561908.png)
 
@@ -75,27 +90,27 @@ readConfig and setConfig:
 
 ## Authentication
 
-### Password Storage 
+### Password Storage
+
 #### Analysis of the 3 solutions
-1. System File 
-   
 
+1. System File
 
-For convinence's sack in this lab, I use **public file** to store user credential. ``Confidentiality`` is reached as I encrypted(**AES**) username and password. I do not implement ``integrity`` due to practical matters. However, I should emphasis that normal user should not have write access to the file, in the implementation phase I just mimic that I have ``admin role``, and ``manualy`` upsert data to the file. If normal user want to update password, they should go through an ``extra authentication`` process by proving they are who they claim they are. When they are anthenticated, a process with admin role will update the password. 
+For convinence's sack in this lab, I use **public file** to store user credential. ``Confidentiality`` is reached as I encrypted(**AES**) username and password. I do not implement ``integrity`` due to practical matters. However, I should emphasis that normal user should not have write access to the file, in the implementation phase I just mimic that I have ``admin role``, and ``manualy`` upsert data to the file. If normal user want to update password, they should go through an ``extra authentication`` process by proving they are who they claim they are. When they are anthenticated, a process with admin role will update the password.
 
 ![1698876535208](image/README/1698876535208.png)
 
 ![1731876354433](image/README/1731876354433.png)
 
 ### Password transport
+
 Regarding Passwords Transport, we operate under the assumption that Transport Layer Security (TLS) is already implemented within our system. TLS plays a critical role in ensuring the secure transmission of passwords between the client and server, safeguarding sensitive information from potential interception by unauthorized entities.
 
 ### Password verification
 
-
 ### Session management
 
-##  Access Control Lists
+## Access Control Lists
 
 ## Role Based Access Control
 
